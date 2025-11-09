@@ -1,33 +1,108 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Caveat:wght@600;700&display=swap");
-:root{
-  --brand-orange:#FF8F2A;
-  --brand-orange-2:#FFB56B;
-  --brand-text:#1C1C1C;
-  --brand-muted:#6B7280;
-  --gray-card:#ECEDEF;
-  --radius-lg:18px;
-  --radius-pill:999px;
+/* === FONTS === */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Caveat:wght@600;700&family=Andika:wght@400&display=swap");
+/* Если нет оригинального Maki-Sans — временно используем Manrope 500 как fallback */
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@500&display=swap");
+
+/* Подключишь, когда будет файл: public/assets/fonts/MakiSans-Medium.woff2/.woff
+@font-face {
+  font-family: "Maki-Sans";
+  src: url("/assets/fonts/MakiSans-Medium.woff2") format("woff2"),
+       url("/assets/fonts/MakiSans-Medium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
 }
-body{ font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; color: var(--brand-text); }
-.hand{ font-family: Caveat, cursive; font-weight: 700; }
-.topbar{ background: var(--brand-orange); }
-.topbar .navbar-brand, .topbar .nav-link{ color:#fff !important; font-weight:600; }
-.topbar .navbar-brand{ font-weight:700; }
-.chip{ display:inline-block; background: rgba(255,255,255,.35); color:#fff; font-weight:700; border-radius: var(--radius-pill); padding:6px 12px; }
-.cta{ background: var(--brand-orange); color:#fff; border:none; border-radius: var(--radius-pill); padding:10px 22px; font-weight:700; }
-.tagline{ font-size: clamp(22px, 2.8vw, 36px); }
-.hero-img{ max-width: 1100px; }
+*/
 
-.goals-title{ font-weight:700; font-size:18px; }
-.goal{ border-radius:18px; padding:18px; background:#F4F5F7; }
-.goal.orange{ background: var(--brand-orange-2); }
-.goal .small{ color: var(--brand-muted); }
+/* === TOKENS === */
+:root {
+  --brand-orange:   #FF8F2A;
+  --brand-orange-2: #FFB56B;
+  --brand-text:     #1C1C1C;
+  --brand-muted:    #6B7280;
+  --gray-card:      #8F9094; /* насыщённый серый из макета */
+  --radius-lg:      18px;
+  --radius-xxl:     50px;    /* радиусы карточек целей */
+  --radius-pill:    999px;
+}
 
+body {
+  background: #fff;
+  color: var(--brand-text);
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
 
-.why-title{ font-family: Caveat, cursive; font-weight:700; font-size: clamp(26px,3.2vw,42px); }
-.benefit{ border-radius:18px; padding:18px; }
-.benefit.orange{ background: var(--brand-orange-2); }
-.benefit .small{ color: var(--brand-muted); }
+/* === COMMON === */
+.hand { font-family: Caveat, cursive; font-weight: 700; }
+.topbar { background: var(--brand-orange); }
+.topbar .navbar-brand, .topbar .nav-link { color:#fff !important; font-weight:600; }
+.topbar .navbar-brand { font-weight:700; }
 
+.chip { display:inline-block; background: rgba(255,255,255,.35); color:#fff; font-weight:700; border-radius: var(--radius-pill); padding:6px 12px; }
+.cta  { background: var(--brand-orange); color:#fff; border:none; border-radius: var(--radius-pill); padding:10px 22px; font-weight:700; }
+.tagline { font-size: clamp(22px, 2.8vw, 36px); }
+.hero-img { max-width: 1100px; }
 
-.form-pill{ border:2px solid var(--brand-orange); border-radius:12px; padding:.65rem .85rem; }
+/* === WHY US === */
+.why-title { font-family: Caveat, cursive; font-weight:700; font-size: clamp(26px,3.2vw,42px); }
+.benefit { border-radius: var(--radius-lg); padding: 18px; }
+.benefit.orange { background: var(--brand-orange-2); }
+.benefit .small { color: var(--brand-muted); }
+
+/* === FORM === */
+.form-pill { border:2px solid var(--brand-orange); border-radius:12px; padding:.65rem .85rem; }
+
+/* === GOALS (pixel-perfect) === */
+.goals-section { background:#fff; }
+.goals-section .container { max-width: 1600px; } /* 1570 + поля */
+
+.goals-aside {
+  font-family: "Andika", sans-serif;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 100%;
+  width: 250px;
+  height: 96px;
+}
+.goals-aside .accent {
+  /* Используем Maki-Sans, если есть; иначе — Manrope 500 */
+  font-family: "Maki-Sans","Manrope",sans-serif;
+  font-weight: 500;
+  font-size: 30px;
+}
+
+.goal-card {
+  width: 617px;
+  height: 350px;
+  border-radius: 50px;
+  opacity: 1;
+  margin-bottom: 50px;
+  padding: 24px 28px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  background: #F4F5F7; /* base, но мы задаём цвет классами ниже */
+  min-height: 327px;   /* из макета */
+}
+.goal-card.gray   { background: var(--gray-card); }
+.goal-card.orange { background: var(--brand-orange-2); }
+
+.goal-title {
+  font-family: "Maki-Sans","Manrope", Inter, sans-serif;
+  font-weight: 500;       /* Medium */
+  font-size: 30px;
+  line-height: 100%;
+  margin: 0 0 12px;
+}
+.goal-list { list-style: disc; padding-left: 26px; margin: 0; }
+.goal-list li {
+  font-family: "Andika", sans-serif;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 100%;
+  margin-bottom: 10px;
+  leading-trim: NONE;
+  letter-spacing: 0;
+
+}
+

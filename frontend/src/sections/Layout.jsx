@@ -1,6 +1,8 @@
 // src/app/Layout.jsx
 import React, { useState, useRef, useEffect } from "react";
 import { Outlet, Link } from "react-router-dom";
+import logo from "../assets/images/logo.png";
+import footerLogo from "../assets/images/footer-logo.png";
 
 function Header() {
     const [open, setOpen] = useState(false);        // состояние раскрытия меню на мобилке
@@ -21,7 +23,7 @@ function Header() {
             {/* Важно: navbar-dark, чтобы отображалась иконка тогглера */}
             <nav className="navbar navbar-expand-lg container py-2 navbar-dark" ref={navRef}>
                 <Link className="navbar-brand d-flex align-items-center gap-2" to="/">
-                    <img src="/assets/logo.png" width={40} height={40} alt="Лого" />
+                    <img src={logo} width={167} height={133} alt="Лого" />
                     ТИМБИЛДИНГ
                 </Link>
 
@@ -83,7 +85,7 @@ function Footer() {
                 <div className="row g-3 align-items-center">
                     <div className="col-12 col-lg-4">
                         <div className="bg-white rounded-4 p-3 d-flex align-items-center gap-3 shadow-sm">
-                            <img src="/assets/logo.png" width={44} height={44} alt="Лого" />
+                            <img src={footerLogo} width={400} height={373} alt="Лого" />
                             <div className="small">Профессиональная организация тимбилдингов и кейс-сессий.</div>
                         </div>
                     </div>
