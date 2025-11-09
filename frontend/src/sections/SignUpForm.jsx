@@ -1,0 +1,2 @@
+export function SignUpForm(){ return (<section id="signup" className="py-4 bg-light"><div className="container"><h2 className="h5">Время записаться (заглушка)</h2></div></section>);}
+export default SignUpForm;

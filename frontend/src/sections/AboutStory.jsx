@@ -1,0 +1,2 @@
+export function AboutStory(){ return (<section id="about" className="py-4 bg-light"><div className="container"><h2 className="h5">О компании (заглушка)</h2></div></section>);}
+export default AboutStory;

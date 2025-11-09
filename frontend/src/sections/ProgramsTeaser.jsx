@@ -1,0 +1,2 @@
+export function ProgramsTeaser(){ return (<section id="programs" className="py-4"><div className="container"><h2 className="h5">Программы (заглушка)</h2></div></section>);}
+export default ProgramsTeaser;
