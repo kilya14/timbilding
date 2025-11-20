@@ -1,32 +1,36 @@
-import { createSlice, nanoid } from "@reduxjs/toolkit";
-
+// src/features/programs/programsSlice.js
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     items: [
-        { id: nanoid(), slug: "hungry-games", title: "Квест «Голодные игры»", price: 8000, group: "20–40 чел", duration: "2–4 часа", image: "/assets/card-quest.jpg", desc: "Тактический квест с динамикой и командными ролями." },
-        { id: nanoid(), slug: "chain-reaction", title: "Цепная реакция", price: 6500, group: "15–30 чел", duration: "2 часа", image: "/assets/card-2.jpg", desc: "Инженерный тимбилдинг: собираем общий механизм." },
-    ],
+        {
+            id: "hungry-games",
+            slug: "hungry-games",
+            title: "Голодные игры",
+            shortDescription: "Выездной квест для команд по мотивам антиутопии: серия испытаний, где важен вклад каждого.",
+            duration: "2–4 часа",
+            peopleFrom: 20,
+            priceFrom: "от 8000 руб./чел",
+            format: "Выездной офлайн-квест",
+            goals: [
+                "сплотить коллектив через общий вызов и эмоции;",
+                "отработать взаимодействие и доверие в команде;",
+                "увидеть естественные роли и лидерство в действии."
+            ],
+            structure: [
+                "Вводная часть: легенда, цель, правила, формирование команд.",
+                "Основной блок: серия тематических испытаний с ограниченным временем.",
+                "Финальное командное испытание с максимальной вовлечённостью всех участников.",
+                "Разбор: обратная связь, фиксация инсайтов и идей для работы."
+            ]
+        }
+    ]
 };
-
 
 const programsSlice = createSlice({
     name: "programs",
     initialState,
-    reducers: {
-        addProgram: {
-            reducer(state, { payload }) { state.items.unshift(payload); },
-            prepare(data) { return { payload: { id: nanoid(), ...data } }; },
-        },
-        updateProgram(state, { payload }) {
-            const i = state.items.findIndex((x) => x.id === payload.id);
-            if (i >= 0) state.items[i] = { ...state.items[i], ...payload };
-        },
-        removeProgram(state, { payload }) {
-            state.items = state.items.filter((x) => x.id !== payload);
-        },
-    },
+    reducers: {}
 });
 
-
-export const { addProgram, updateProgram, removeProgram } = programsSlice.actions;
 export default programsSlice.reducer;
