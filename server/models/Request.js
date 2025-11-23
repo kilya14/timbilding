@@ -3,20 +3,32 @@ import mongoose from "mongoose";
 
 const requestSchema = new mongoose.Schema(
     {
-        org: { type: String, required: true },   // Наименование организации
-        people: { type: Number, default: 0 },    // Количество участников
+        org: { type: String, required: true },              // Наименование организации
+        people: { type: Number, default: 0 },               // Количество участников
+        wish: { type: String },                             // Желаемая дата (строка)
         email: { type: String, required: true },
         phone: { type: String, required: true },
-        wish: String,                            // Желаемая дата
-        comment: String,
-        programId: String,                       // ID или slug программы
+        comment: { type: String },                          // Комментарий клиента
+        programId: { type: String },                        // id/slug программы
+
         status: {
             type: String,
-            enum: ["new", "in_progress", "done"],
+            enum: [
+                "new",              // Новая
+                "in_progress",      // В обработке
+                "waiting",          // Ждём подтверждения
+                "confirmed",        // Подтверждена
+                "cancelled",        // Отменена
+                "finished"          // Завершена
+            ],
             default: "new"
-        }
+        },
+
+        managerNote: { type: String }                       // внутренний комментарий менеджера
     },
-    { timestamps: true }
+    {
+        timestamps: true // createdAt, updatedAt
+    }
 );
 
 export const Request = mongoose.model("Request", requestSchema);

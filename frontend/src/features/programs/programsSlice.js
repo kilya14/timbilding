@@ -7,7 +7,8 @@ const initialState = {
             id: "hungry-games",
             slug: "hungry-games",
             title: "Голодные игры",
-            shortDescription: "Выездной квест для команд по мотивам антиутопии: серия испытаний, где важен вклад каждого.",
+            shortDescription:
+                "Выездной квест для команд по мотивам антиутопии: серия испытаний, где важен вклад каждого.",
             duration: "2–4 часа",
             peopleFrom: 20,
             priceFrom: "от 8000 руб./чел",
@@ -30,7 +31,13 @@ const initialState = {
 const programsSlice = createSlice({
     name: "programs",
     initialState,
-    reducers: {}
+    reducers: {
+        // На будущее: если захочешь подтягивать программы из API и класть в Redux
+        setPrograms(state, { payload }) {
+            state.items = payload || [];
+        }
+    }
 });
 
+export const { setPrograms } = programsSlice.actions;
 export default programsSlice.reducer;

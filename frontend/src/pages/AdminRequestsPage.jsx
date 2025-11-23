@@ -1,12 +1,15 @@
 // src/pages/AdminRequestsPage.jsx
 import React, { useEffect, useState } from "react";
+import { API_URL } from "../config.js";
 
-const API_URL = "http://localhost:5001";
 
 const STATUS_OPTIONS = [
-    { value: "new", label: "Новая" },
-    { value: "in_progress", label: "В работе" },
-    { value: "done", label: "Завершена" }
+    { value: "new",         label: "Новая" },
+    { value: "in_progress", label: "В обработке" },
+    { value: "waiting",     label: "Ждём подтверждения" },
+    { value: "confirmed",   label: "Подтверждена" },
+    { value: "cancelled",   label: "Отменена" },
+    { value: "finished",    label: "Завершена" }
 ];
 
 export default function AdminRequestsPage() {
@@ -14,16 +17,19 @@ export default function AdminRequestsPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     const [savingId, setSavingId] = useState(null); // id заявки, по которой меняем статус
+    const [statusFilter, setStatusFilter] = useState("all"); // фильтр по статусу
 
     const loadRequests = async () => {
         try {
             setLoading(true);
             setError("");
+
             const res = await fetch(`${API_URL}/api/requests`);
             if (!res.ok) {
                 const data = await res.json().catch(() => ({}));
                 throw new Error(data.message || "Ошибка загрузки заявок");
             }
+
             const data = await res.json();
             setItems(data);
         } catch (err) {
@@ -56,7 +62,6 @@ export default function AdminRequestsPage() {
 
             const updated = await res.json();
 
-            // Обновляем в стейте
             setItems((prev) =>
                 prev.map((item) => (item._id === updated._id ? updated : item))
             );
@@ -68,33 +73,58 @@ export default function AdminRequestsPage() {
         }
     };
 
+    // применяем фильтр по статусу
+    const filteredItems =
+        statusFilter === "all"
+            ? items
+            : items.filter((r) => (r.status || "new") === statusFilter);
+
     return (
         <section className="py-4 py-md-5">
             <div className="container">
-                <div className="d-flex justify-content-between align-items-center mb-3">
+                {/* Заголовок + кнопка обновления + фильтр */}
+                <div className="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
                     <div>
                         <h1 className="h4 mb-1">Заявки</h1>
                         <div className="small text-muted">
-                            Простой список без авторизации — для учебного проекта.
+                            Список заявок с формы «Подать заявку».
                         </div>
                     </div>
-                    <button
-                        type="button"
-                        className="btn btn-sm btn-outline-secondary"
-                        onClick={loadRequests}
-                    >
-                        Обновить
-                    </button>
+                    <div className="d-flex align-items-center gap-2">
+                        <select
+                            className="form-select form-select-sm"
+                            value={statusFilter}
+                            onChange={(e) => setStatusFilter(e.target.value)}
+                        >
+                            <option value="all">Все статусы</option>
+                            {STATUS_OPTIONS.map((opt) => (
+                                <option key={opt.value} value={opt.value}>
+                                    {opt.label}
+                                </option>
+                            ))}
+                        </select>
+                        <button
+                            type="button"
+                            className="btn btn-sm btn-outline-secondary"
+                            onClick={loadRequests}
+                        >
+                            Обновить
+                        </button>
+                    </div>
                 </div>
 
                 {loading && <div className="text-muted small mb-3">Загрузка...</div>}
                 {error && <div className="alert alert-danger py-2">{error}</div>}
 
-                {!loading && !error && items.length === 0 && (
-                    <div className="text-muted small">Пока нет ни одной заявки.</div>
+                {!loading && !error && filteredItems.length === 0 && (
+                    <div className="text-muted small">
+                        {items.length === 0
+                            ? "Пока нет ни одной заявки."
+                            : "Нет заявок с таким статусом."}
+                    </div>
                 )}
 
-                {!loading && !error && items.length > 0 && (
+                {!loading && !error && filteredItems.length > 0 && (
                     <div className="table-responsive">
                         <table className="table table-sm align-middle">
                             <thead>
@@ -109,11 +139,13 @@ export default function AdminRequestsPage() {
                             </tr>
                             </thead>
                             <tbody>
-                            {items.map((r) => (
+                            {filteredItems.map((r) => (
                                 <tr key={r._id}>
                                     <td className="small">
                                         {r.createdAt
-                                            ? new Date(r.createdAt).toLocaleDateString()
+                                            ? new Date(
+                                                r.createdAt
+                                            ).toLocaleDateString()
                                             : "-"}
                                     </td>
                                     <td className="small">{r.org}</td>
@@ -145,7 +177,10 @@ export default function AdminRequestsPage() {
                                                 className="form-select form-select-sm"
                                                 value={r.status || "new"}
                                                 onChange={(e) =>
-                                                    updateStatus(r._id, e.target.value)
+                                                    updateStatus(
+                                                        r._id,
+                                                        e.target.value
+                                                    )
                                                 }
                                                 disabled={savingId === r._id}
                                             >
