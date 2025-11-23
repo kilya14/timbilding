@@ -1,24 +1,34 @@
 // server/routes/auth.js
 import express from "express";
+import { AdminUser } from "../models/AdminUser.js";
 
 const router = express.Router();
 
-const ADMIN_LOGIN = process.env.ADMIN_LOGIN || "admin";
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "admin123";
+// POST /api/auth/login
+router.post("/login", async (req, res) => {
+    try {
+        const { login, password } = req.body;
 
-// POST /api/auth/login { login, password }
-router.post("/login", (req, res) => {
-    const { login, password } = req.body || {};
+        if (!login || !password) {
+            return res
+                .status(400)
+                .json({ message: "Укажите логин и пароль" });
+        }
 
-    if (login === ADMIN_LOGIN && password === ADMIN_PASSWORD) {
-        // без JWT, просто флажок
-        return res.json({
-            success: true,
-            token: "simple-admin-token"
-        });
+        const user = await AdminUser.findOne({ login });
+        if (!user || user.password !== password) {
+            return res
+                .status(401)
+                .json({ message: "Неверный логин или пароль" });
+        }
+
+        // простой токен, без JWT
+        const token = `simple-${user._id}`;
+        res.json({ token });
+    } catch (err) {
+        console.error("POST /api/auth/login error", err);
+        res.status(500).json({ message: "Ошибка авторизации" });
     }
-
-    return res.status(401).json({ message: "Неверный логин или пароль" });
 });
 
 export default router;

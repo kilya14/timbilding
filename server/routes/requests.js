@@ -15,7 +15,7 @@ router.get("/", async (req, res) => {
     }
 });
 
-// GET /api/requests/:id — одна заявка (для детального просмотра/редактирования)
+// GET /api/requests/:id — одна заявка
 router.get("/:id", async (req, res) => {
     try {
         const item = await Request.findById(req.params.id);
@@ -43,7 +43,9 @@ router.post("/", async (req, res) => {
         } = req.body;
 
         if (!org || !email || !phone) {
-            return res.status(400).json({ message: "Заполните организацию, email и телефон" });
+            return res
+                .status(400)
+                .json({ message: "Заполните организацию, email и телефон" });
         }
 
         const request = await Request.create({

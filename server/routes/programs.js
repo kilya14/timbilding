@@ -1,6 +1,6 @@
 // server/routes/programs.js
 import express from "express";
-import {Program} from "../models/Program.js";
+import { Program } from "../models/Program.js";
 
 const router = express.Router();
 
@@ -51,11 +51,6 @@ router.post("/", async (req, res) => {
             return res.status(400).json({ message: "slug и title обязательны" });
         }
 
-        const exists = await Program.findOne({ slug });
-        if (exists) {
-            return res.status(400).json({ message: "Программа с таким slug уже есть" });
-        }
-
         const program = await Program.create({
             slug,
             title,
@@ -75,45 +70,55 @@ router.post("/", async (req, res) => {
     }
 });
 
-// PATCH /api/programs/:id — обновить программу
+// PATCH /api/programs/:id — обновление программы
 router.patch("/:id", async (req, res) => {
     try {
-        const allowed = [
-            "slug",
-            "title",
-            "shortDescription",
-            "duration",
-            "peopleFrom",
-            "priceFrom",
-            "format",
-            "goals",
-            "structure"
-        ];
+        const {
+            slug,
+            title,
+            shortDescription,
+            duration,
+            peopleFrom,
+            priceFrom,
+            format,
+            goals,
+            structure
+        } = req.body;
 
         const data = {};
-        for (const key of allowed) {
-            if (req.body[key] !== undefined) data[key] = req.body[key];
-        }
 
-        const updated = await Program.findByIdAndUpdate(req.params.id, data, {
-            new: true
-        });
-        if (!updated) {
+        if (slug !== undefined) data.slug = slug;
+        if (title !== undefined) data.title = title;
+        if (shortDescription !== undefined) data.shortDescription = shortDescription;
+        if (duration !== undefined) data.duration = duration;
+        if (peopleFrom !== undefined) data.peopleFrom = peopleFrom;
+        if (priceFrom !== undefined) data.priceFrom = priceFrom;
+        if (format !== undefined) data.format = format;
+        if (goals !== undefined) data.goals = goals;
+        if (structure !== undefined) data.structure = structure;
+
+        const program = await Program.findByIdAndUpdate(
+            req.params.id,
+            data,
+            { new: true }
+        );
+
+        if (!program) {
             return res.status(404).json({ message: "Программа не найдена" });
         }
 
-        res.json(updated);
+        res.json(program);
     } catch (err) {
         console.error("PATCH /api/programs/:id error:", err);
         res.status(500).json({ message: "Server error" });
     }
 });
 
-// DELETE /api/programs/:id — удалить программу
+// DELETE /api/programs/:id — удаление программы
 router.delete("/:id", async (req, res) => {
     try {
-        const deleted = await Program.findByIdAndDelete(req.params.id);
-        if (!deleted) {
+        const program = await Program.findByIdAndDelete(req.params.id);
+        if (!program) {
             return res.status(404).json({ message: "Программа не найдена" });
         }
         res.json({ success: true });

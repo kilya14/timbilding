@@ -1,6 +1,8 @@
 // src/pages/AdminRequestsPage.jsx
 import React, { useEffect, useState } from "react";
 import { API_URL } from "../config.js";
+import { Navigate } from "react-router-dom";
+import { getAdminToken } from "../utils/adminAuth.js";
 
 
 const STATUS_OPTIONS = [
@@ -13,12 +15,16 @@ const STATUS_OPTIONS = [
 ];
 
 export default function AdminRequestsPage() {
+
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     const [savingId, setSavingId] = useState(null); // id заявки, по которой меняем статус
     const [statusFilter, setStatusFilter] = useState("all"); // фильтр по статусу
-
+    const token = getAdminToken();
+    if (!token) {
+        return <Navigate to="/admin/login" replace />;
+    }
     const loadRequests = async () => {
         try {
             setLoading(true);
