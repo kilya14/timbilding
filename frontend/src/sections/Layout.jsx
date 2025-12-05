@@ -5,25 +5,29 @@ import logo from "../assets/images/logo.png";
 import footerLogo from "../assets/images/footer-logo.png";
 
 function Header() {
-    const [open, setOpen] = useState(false);        // состояние раскрытия меню на мобилке
+    const [open, setOpen] = useState(false);             // мобильное меню
+    const [programsOpen, setProgramsOpen] = useState(false); // дропдаун "Программы"
     const navRef = useRef(null);
 
-    // Закрытие меню по клику вне
     useEffect(() => {
         const onClick = (e) => {
             if (!navRef.current) return;
-            if (!navRef.current.contains(e.target)) setOpen(false);
+            if (!navRef.current.contains(e.target)) {
+                setOpen(false);
+                setProgramsOpen(false);
+            }
         };
         document.addEventListener("click", onClick);
         return () => document.removeEventListener("click", onClick);
     }, []);
 
-    // при клике по любому пункту меню на мобилке — закрываем меню
-    const handleNavClick = () => setOpen(false);
+    const handleNavClick = () => {
+        setOpen(false);
+        setProgramsOpen(false);
+    };
 
     return (
         <header className="topbar sticky-top">
-            {/* Важно: navbar-dark, чтобы отображалась иконка тогглера */}
             <nav
                 className="navbar navbar-expand-lg container py-2 navbar-dark"
                 ref={navRef}
@@ -47,9 +51,8 @@ function Header() {
                 </button>
 
                 <div className={`collapse navbar-collapse ${open ? "show" : ""}`}>
-                    <ul className="navbar-nav ms-auto align-items-lg-center gap-lg-2 position-relative">
+                    <ul className="navbar-nav ms-auto align-items-lg-center gap-lg-2">
                         <li className="nav-item">
-                            {/* идём на главную и к секции #about */}
                             <a
                                 className="nav-link"
                                 href="/#about"
@@ -58,8 +61,8 @@ function Header() {
                                 О компании
                             </a>
                         </li>
+
                         <li className="nav-item">
-                            {/* главная + секция преимуществ */}
                             <a
                                 className="nav-link"
                                 href="/#why"
@@ -69,43 +72,58 @@ function Header() {
                             </a>
                         </li>
 
-                        {/* Для мегаменю лучше не трогать state, а открыть по CSS :hover */}
+                        {/* Классический Bootstrap-дропдаун "Программы" */}
                         <li className="nav-item dropdown">
-                            <Link
-                                className="nav-link"
-                                to="/programs/hungry-games"
-                                onClick={handleNavClick}
+                            <a
+                                href="#programs"
+                                className="nav-link dropdown-toggle"
+                                role="button"
+                                aria-expanded={programsOpen ? "true" : "false"}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    setProgramsOpen((s) => !s);
+                                }}
                             >
-                                Программы ▾
-                            </Link>
-                            <div className="mega">
-                                <div className="layer">
-                                    <div className="row g-2 text-white">
-                                        <div className="col-12 col-md-4">
-                                            <span className="chip">Популярное</span>
-                                            <div className="small mt-1 text-white-50">
-                                                Цепная реакция
-                                            </div>
-                                        </div>
-                                        <div className="col-12 col-md-4">
-                                            <span className="chip">Квесты</span>
-                                            <div className="small mt-1 text-white-50">
-                                                Голодные игры
-                                            </div>
-                                        </div>
-                                        <div className="col-12 col-md-4">
-                                            <span className="chip">Кулинария</span>
-                                            <div className="small mt-1 text-white-50">
-                                                Свой ресторан
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                                Программы
+                            </a>
+
+                            <ul
+                                className={
+                                    "dropdown-menu" +
+                                    (programsOpen ? " show" : "")
+                                }
+                            >
+                                <li>
+                                    <Link
+                                        to="/programs/chain-reaction"
+                                        className="dropdown-item"
+                                        onClick={handleNavClick}
+                                    >
+                                        Цепная реакция
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link
+                                        to="/programs/hungry-games"
+                                        className="dropdown-item"
+                                        onClick={handleNavClick}
+                                    >
+                                        Голодные игры
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link
+                                        to="/programs/own-restaurant"
+                                        className="dropdown-item"
+                                        onClick={handleNavClick}
+                                    >
+                                        Свой ресторан
+                                    </Link>
+                                </li>
+                            </ul>
                         </li>
 
                         <li className="nav-item">
-                            {/* главная + секция контактов */}
                             <a
                                 className="nav-link"
                                 href="/#contacts"
@@ -115,7 +133,6 @@ function Header() {
                             </a>
                         </li>
 
-                        {/* простой вход в админку */}
                         <li className="nav-item">
                             <Link
                                 className="nav-link small"

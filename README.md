@@ -67,3 +67,4 @@
   format: String
   goals: [String]
   structure: [String]
+  
