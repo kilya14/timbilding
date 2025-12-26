@@ -1,113 +1,4 @@
-///* === FONTS === */
-//@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Caveat:wght@600;700&family=Andika:wght@400&display=swap");
-///* Если нет оригинального Maki-Sans — временно используем Manrope 500 как fallback */
-//@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@500&display=swap");
-//
-///* Подключишь, когда будет файл: public/assets/fonts/MakiSans-Medium.woff2/.woff
-//@font-face {
-//  font-family: "Maki-Sans";
-//  src: url("/assets/fonts/MakiSans-Medium.woff2") format("woff2"),
-//       url("/assets/fonts/MakiSans-Medium.woff") format("woff");
-//  font-weight: 500;
-//  font-style: normal;
-//  font-display: swap;
-//}
-//*/
-//
-///* === TOKENS === */
-//:root {
-//  --brand-orange:   #FF8F2A;
-//  --brand-orange-2: #FFB56B;
-//  --brand-text:     #1C1C1C;
-//  --brand-muted:    #6B7280;
-//  --gray-card:      #8F9094; /* насыщённый серый из макета */
-//  --radius-lg:      18px;
-//  --radius-xxl:     50px;    /* радиусы карточек целей */
-//  --radius-pill:    999px;
-//}
-//
-//body {
-//  background: #fff;
-//  color: var(--brand-text);
-//  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-//}
-//
-///* === COMMON === */
-//.hand { font-family: Caveat, cursive; font-weight: 700; }
-//.topbar { background: var(--brand-orange); }
-//.topbar .navbar-brand, .topbar .nav-link { color:#fff !important; font-weight:600; }
-//.topbar .navbar-brand { font-weight:700; }
-//
-//.chip { display:inline-block; background: rgba(255,255,255,.35); color:#fff; font-weight:700; border-radius: var(--radius-pill); padding:6px 12px; }
-//.cta  { background: var(--brand-orange); color:#fff; border:none; border-radius: var(--radius-pill); padding:10px 22px; font-weight:700; }
-//.tagline { font-size: clamp(22px, 2.8vw, 36px); }
-//.hero-img { max-width: 1100px; }
-//
-///* === WHY US === */
-//.why-title { font-family: Caveat, cursive; font-weight:700; font-size: clamp(26px,3.2vw,42px); }
-//.benefit { border-radius: var(--radius-lg); padding: 18px; }
-//.benefit.orange { background: var(--brand-orange-2); }
-//.benefit .small { color: var(--brand-muted); }
-//
-///* === FORM === */
-//.form-pill { border:2px solid var(--brand-orange); border-radius:12px; padding:.65rem .85rem; }
-//
-///* === GOALS (pixel-perfect) === */
-//.goals-section { background:#fff; }
-//.goals-section .container { max-width: 1600px; } /* 1570 + поля */
-//
-//.goals-aside {
-//  font-family: "Andika", sans-serif;
-//  font-weight: 400;
-//  font-size: 30px;
-//  line-height: 100%;
-//  width: 250px;
-//  height: 96px;
-//}
-//.goals-aside .accent {
-//  /* Используем Maki-Sans, если есть; иначе — Manrope 500 */
-//  font-family: "Maki-Sans","Manrope",sans-serif;
-//  font-weight: 500;
-//  font-size: 30px;
-//}
-//
-//.goal-card {
-//  width: 617px;
-//  height: 350px;
-//  border-radius: 50px;
-//  opacity: 1;
-//  margin-bottom: 50px;
-//  padding: 24px 28px;
-//  color: #fff;
-//  display: flex;
-//  flex-direction: column;
-//  background: #F4F5F7; /* base, но мы задаём цвет классами ниже */
-//  min-height: 327px;   /* из макета */
-//}
-//.goal-card.gray   { background: var(--gray-card); }
-//.goal-card.orange { background: var(--brand-orange-2); }
-//
-//.goal-title {
-//  font-family: "Maki-Sans","Manrope", Inter, sans-serif;
-//  font-weight: 500;       /* Medium */
-//  font-size: 30px;
-//  line-height: 100%;
-//  margin: 0 0 12px;
-//}
-//.goal-list { list-style: disc; padding-left: 26px; margin: 0; }
-//.goal-list li {
-//  font-family: "Andika", sans-serif;
-//  font-weight: 400;
-//  font-size: 30px;
-//  line-height: 100%;
-//  margin-bottom: 10px;
-//  leading-trim: NONE;
-//  letter-spacing: 0;
-//
-//}
-//
-
-/* src/styles/tokens.scss */
+/* src/styles/tokens.scss - Стили тимбилдинг сайта */
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Caveat:wght@600;700&display=swap");
 
 :root {
@@ -397,4 +288,167 @@ textarea.form-pill {
   .topbar .nav-item.dropdown:hover > .dropdown-menu {
     display: block;
   }
+}
+.program-teaser__main {
+  position: relative;
+  max-width: 560px;
+  background: #f6f7f9;
+}
+
+.program-teaser__mainImg {
+  height: 320px;
+  object-fit: cover;
+  display: block;
+}
+
+.program-teaser__chips {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+.program-teaser__chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 14px;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  white-space: nowrap;
+}
+
+.program-teaser__overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 16px;
+  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.60) 100%);
+}
+
+.program-teaser__title {
+  color: #fff;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.2;
+}
+
+.program-teaser__desc {
+  margin-top: 6px;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 13px;
+  line-height: 1.35;
+  max-width: 520px;
+}
+
+.program-teaser__mini {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  background: #fff;
+}
+
+.program-teaser__miniImg {
+  width: 84px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 12px;
+  flex: 0 0 auto;
+}
+
+.program-teaser__miniTitle {
+  font-weight: 700;
+  color: #111;
+  line-height: 1.2;
+}
+
+.program-teaser__miniMeta {
+  font-size: 13px;
+  color: #6c757d;
+  margin-top: 2px;
+}
+
+.program-teaser__miniArrow {
+  color: #9aa0a6;
+  font-size: 18px;
+  padding-left: 6px;
+}
+
+/* === ADMIN STYLES === */
+.table-sm {
+  font-size: 14px;
+}
+
+.table-sm th {
+  font-weight: 600;
+  background-color: #F9FAFB;
+  border-bottom: 2px solid #E5E7EB;
+}
+
+.table-sm td {
+  vertical-align: middle;
+}
+
+.rounded-4 {
+  border-radius: var(--radius-lg) !important;
+}
+
+/* === CATALOG & PROGRAMS === */
+.card.h-100 {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card.h-100:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12) !important;
+}
+
+/* Hover эффект для мини-карточек программ */
+.hover-lift {
+  transition: all 0.2s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Hand стиль для заголовков */
+.hand {
+  font-family: Caveat, cursive;
+  font-weight: 700;
+}
+.program-card__chips {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+.program-card__chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 13px;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  white-space: nowrap;
 }

@@ -7,8 +7,11 @@ import { connectDB } from "./config/db.js";
 import programsRouter from "./routes/programs.js";
 import requestsRouter from "./routes/requests.js";
 import authRouter from "./routes/auth.js";
+import publicRouter from "./routes/public.js";
+import adminRouter from "./routes/admin.js";
 import { Program } from "./models/Program.js";
 import { AdminUser } from "./models/AdminUser.js";
+import { Category } from "./models/Category.js";
 
 dotenv.config();
 
@@ -25,9 +28,13 @@ app.get("/", (req, res) => {
 });
 
 // API
+app.use("/api/public", publicRouter);
+app.use("/api/admin", adminRouter);
+app.use("/api/auth", authRouter);
+
+// Старые роуты для обратной совместимости
 app.use("/api/programs", programsRouter);
 app.use("/api/requests", requestsRouter);
-app.use("/api/auth", authRouter);
 
 // сиды: админ + дефолтная программа
 async function seedInitialData() {

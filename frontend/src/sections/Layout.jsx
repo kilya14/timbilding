@@ -37,8 +37,8 @@ function Header() {
                     to="/"
                     onClick={handleNavClick}
                 >
-                    <img src={logo} width={167} height={133} alt="Лого" />
-                    ТИМБИЛДИНГ
+                    <img src={logo} width={50} height={40} alt="Лого" style={{ objectFit: 'contain' }} />
+                    <span className="fw-bold">ТИМБИЛДИНГ</span>
                 </Link>
 
                 <button
@@ -72,55 +72,15 @@ function Header() {
                             </a>
                         </li>
 
-                        {/* Классический Bootstrap-дропдаун "Программы" */}
-                        <li className="nav-item dropdown">
-                            <a
-                                href="#programs"
-                                className="nav-link dropdown-toggle"
-                                role="button"
-                                aria-expanded={programsOpen ? "true" : "false"}
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    setProgramsOpen((s) => !s);
-                                }}
+                        {/* Ссылка на каталог программ */}
+                        <li className="nav-item">
+                            <Link
+                                className="nav-link"
+                                to="/catalog"
+                                onClick={handleNavClick}
                             >
                                 Программы
-                            </a>
-
-                            <ul
-                                className={
-                                    "dropdown-menu" +
-                                    (programsOpen ? " show" : "")
-                                }
-                            >
-                                <li>
-                                    <Link
-                                        to="/programs/chain-reaction"
-                                        className="dropdown-item"
-                                        onClick={handleNavClick}
-                                    >
-                                        Цепная реакция
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link
-                                        to="/programs/hungry-games"
-                                        className="dropdown-item"
-                                        onClick={handleNavClick}
-                                    >
-                                        Голодные игры
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link
-                                        to="/programs/own-restaurant"
-                                        className="dropdown-item"
-                                        onClick={handleNavClick}
-                                    >
-                                        Свой ресторан
-                                    </Link>
-                                </li>
-                            </ul>
+                            </Link>
                         </li>
 
                         <li className="nav-item">
@@ -156,7 +116,7 @@ function Footer() {
                 <div className="row g-3 align-items-center">
                     <div className="col-12 col-lg-4">
                         <div className="bg-white rounded-4 p-3 d-flex align-items-center gap-3 shadow-sm">
-                            <img src={footerLogo} width={400} height={373} alt="Лого" />
+                            <img src={footerLogo} width={60} height={56} alt="Лого" style={{ objectFit: 'contain' }} />
                             <div className="small">
                                 Профессиональная организация тимбилдингов и кейс-сессий.
                             </div>

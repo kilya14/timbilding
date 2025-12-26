@@ -75,7 +75,22 @@ export default function AdminHomePage() {
                         </div>
                     </div>
 
-                    {/* На будущее можно добавить ещё карточки: "Контакты", "Настройки" и т.п. */}
+                    <div className="col-12 col-md-4">
+                        <div className="card shadow-sm rounded-4 border-0 h-100">
+                            <div className="card-body">
+                                <h5 className="card-title">Категории</h5>
+                                <p className="card-text small text-muted">
+                                    Управление категориями программ.
+                                </p>
+                                <Link
+                                    to="/admin/categories"
+                                    className="btn btn-sm btn-primary"
+                                >
+                                    Перейти
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>

@@ -14,7 +14,7 @@ export default function SignUpForm() {
 
         async function load() {
             try {
-                const res = await fetch(`${API_URL}/api/programs`);
+                const res = await fetch(`${API_URL}/api/public/programs`);
                 if (!res.ok) return;
                 const data = await res.json();
                 if (!cancelled && Array.isArray(data) && data.length > 0) {
@@ -45,13 +45,12 @@ export default function SignUpForm() {
                 ];
 
     const [form, setForm] = useState({
-        org: "",
-        count: "",
-        date: "",
+        companyName: "",
+        participantsCount: "",
+        eventDate: "",
         email: "",
         phone: "",
         comment: "",
-        // важное: programId = slug
         programId: programs[0]?.slug || ""
     });
     const [ok, setOk] = useState(false);
@@ -68,24 +67,23 @@ export default function SignUpForm() {
         setError("");
         setOk(false);
 
-        if (!form.org || !form.email || !form.phone) {
+        if (!form.companyName || !form.email || !form.phone) {
             setError("Заполните организацию, email и телефон");
             return;
         }
 
         try {
             setLoading(true);
-            const res = await fetch(`${API_URL}/api/requests`, {
+            const res = await fetch(`${API_URL}/api/public/requests`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    org: form.org,
-                    people: Number(form.count) || 0,
-                    wish: form.date,
+                    companyName: form.companyName,
+                    participantsCount: Number(form.participantsCount) || 0,
+                    eventDate: form.eventDate,
                     email: form.email,
                     phone: form.phone,
                     comment: form.comment,
-                    // здесь уходим в API ровно тем, что лежит в select
                     programId: form.programId
                 })
             });
@@ -98,9 +96,9 @@ export default function SignUpForm() {
             await res.json();
             setOk(true);
             setForm({
-                org: "",
-                count: "",
-                date: "",
+                companyName: "",
+                participantsCount: "",
+                eventDate: "",
                 email: "",
                 phone: "",
                 comment: "",
@@ -130,21 +128,21 @@ export default function SignUpForm() {
                             <input
                                 className="form-pill"
                                 placeholder="Наименование организации:"
-                                value={form.org}
-                                onChange={onChange("org")}
+                                value={form.companyName}
+                                onChange={onChange("companyName")}
                             />
                             <div className="d-flex gap-2 flex-wrap">
                                 <input
                                     className="form-pill flex-fill"
                                     placeholder="Количество участников:"
-                                    value={form.count}
-                                    onChange={onChange("count")}
+                                    value={form.participantsCount}
+                                    onChange={onChange("participantsCount")}
                                 />
                                 <input
                                     className="form-pill flex-fill"
                                     placeholder="Желаемая дата:"
-                                    value={form.date}
-                                    onChange={onChange("date")}
+                                    value={form.eventDate}
+                                    onChange={onChange("eventDate")}
                                 />
                             </div>
                             <div className="d-flex gap-2 flex-wrap">

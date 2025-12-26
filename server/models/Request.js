@@ -3,14 +3,36 @@ import mongoose from "mongoose";
 
 const requestSchema = new mongoose.Schema(
     {
-        org: { type: String, required: true },      // Наименование организации
-        people: { type: Number, default: 0 },       // Количество участников
-        wish: { type: String },                     // Желаемая дата (строка)
+        // Основная информация
+        companyName: { type: String, required: true },
         email: { type: String, required: true },
         phone: { type: String, required: true },
-        comment: { type: String },                  // Комментарий клиента
-        programId: { type: String },                // id/slug программы
 
+        // Связь с программой
+        programId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Program',
+            required: true
+        },
+
+        // Детали мероприятия
+        preferredDate: { type: Date },
+        alternativeDate: { type: Date },  // альтернативная дата
+        participantsCount: { type: Number, required: true },
+
+        // Пожелания клиента
+        budget: { type: String },  // "до 100000 руб"
+        goals: [String],  // ["Сплочение команды", "Развитие коммуникации"]
+        comment: { type: String },
+
+        // Источник
+        source: {
+            type: String,
+            enum: ['website', 'social', 'referral', 'repeat', 'other'],
+            default: 'website'
+        },
+
+        // Статус и работа менеджера
         status: {
             type: String,
             enum: [
@@ -23,8 +45,12 @@ const requestSchema = new mongoose.Schema(
             ],
             default: "new"
         },
+        managerComment: { type: String },
+        assignedTo: { type: String },  // email менеджера
 
-        managerNote: { type: String }              // внутренний комментарий менеджера
+        // Финансы
+        finalPrice: { type: Number },  // итоговая согласованная цена
+        paid: { type: Boolean, default: false }
     },
     {
         timestamps: true
